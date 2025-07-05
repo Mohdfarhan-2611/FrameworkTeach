@@ -14,10 +14,19 @@ public class PropertiesReaderUtils {
 
     public static String readkey(String key) throws IOException {
 
-        FileInputStream fileInputStream = new FileInputStream(QKART_URL_PATH);
-        Properties properties = new Properties();
-        properties.load(fileInputStream);
-        return properties.getProperty(key);
+        Properties properties = null;
+        FileInputStream fileInputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(QKART_URL_PATH);
+            properties = new Properties();
+            properties.load(fileInputStream);
+            return properties.getProperty(key);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

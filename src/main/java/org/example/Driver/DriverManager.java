@@ -14,59 +14,48 @@ import java.util.Objects;
 
 public class DriverManager {
 
-   private static WebDriver driver;
-
-   public static WebDriver getDriver() {
-        return driver;
-    }
-
-    public static void setDriver(WebDriver driver) {
-        DriverManager.driver = driver;
-    }
-
 
 
     public static void init() throws IOException {
         String browser = PropertiesReaderUtils.readkey("browser");
         browser = browser.toLowerCase(); //firefox
 
-        if(Objects.isNull(driver)) {
+        if(Objects.isNull(DriverManagerTL.getDriver())) {
             switch (browser) {
                 case "chrome":
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--start-maximized");
                     chromeOptions.addArguments("--incognito");
-                    driver = new ChromeDriver(chromeOptions);
-                    driver.get(PropertiesReaderUtils.readkey("url"));
+                    DriverManagerTL.setDriver(new ChromeDriver(chromeOptions));
+                    DriverManagerTL.getDriver().get(PropertiesReaderUtils.readkey("url"));
                     break;
 
                 case "firefox":
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.addArguments("--start-maximized");
                     firefoxOptions.addArguments("--incognito");
-                    driver = new FirefoxDriver(firefoxOptions);
-                    driver.get(PropertiesReaderUtils.readkey("url"));
+                    DriverManagerTL.setDriver(new FirefoxDriver(firefoxOptions));
+                    DriverManagerTL.getDriver().get(PropertiesReaderUtils.readkey("url"));
                     break;
 
                 case "edge":
                     EdgeOptions edgeOptions = new EdgeOptions();
                     edgeOptions.addArguments("--start-maximized");
                     edgeOptions.addArguments("--incognito");
-                    driver = new EdgeDriver(edgeOptions);
-                    driver.get(PropertiesReaderUtils.readkey("url"));
+                    DriverManagerTL.setDriver(new EdgeDriver(edgeOptions));
+                    DriverManagerTL.getDriver().get(PropertiesReaderUtils.readkey("url"));
                     break;
 
                 default:
                     System.out.println("Browser not found");
             }
         }
-
     }
 
 
     public static void tearDown(){
-        if(Objects.nonNull(driver))
-            driver.quit();
-            driver = null;
+        if(Objects.nonNull(DriverManagerTL.getDriver()))
+            DriverManagerTL.getDriver().quit();
+            DriverManagerTL.setDriver(null);
     }
 }

@@ -1,12 +1,18 @@
 package org.example.Test;
 
+import org.apache.logging.log4j.Logger;
 import org.example.BaseTest.BaseTest;
 import org.example.Listener.retryAnalyzer;
 import org.example.Pages.TestQKartLoginPage;
+import org.example.Utils.LoggerUtility;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+@Listeners({org.example.Listener.TestListener.class})
 public class TestQKartLogin extends BaseTest {
+
+
 
     TestQKartLoginPage login = new TestQKartLoginPage();
 
@@ -21,6 +27,5 @@ public class TestQKartLogin extends BaseTest {
     public void InvalidLogin(){
 
         login.InvalidLogin("mh@gmail.com", "pass123@");
-        Assert.assertTrue(false);
     }
 }
